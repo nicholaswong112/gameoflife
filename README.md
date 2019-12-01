@@ -11,4 +11,4 @@
 4. [TODO]
 
 For now, just try running `python3 main.py` and see if it looks like this
-![desired output](test.png)
+![desired output](test.PNG)
