@@ -5,7 +5,7 @@
 - [tkinter](https://stackoverflow.com/questions/39928710/why-is-there-no-tkinter-distribution-found): try running `python3 -m tkinter`
 
 # Instructions for downloading
-1. Clone the repo: `git clone [url of this repo]`
+1. Clone the repo: `git clone https://github.com/nicholaswong112/gameoflife.git`
 2. Run `virtualenv venv` then `source venv/bin/activate` to create and activate the virtual environment
 3. Install necessary packages with `pip install -r requirements.txt`
 4. [TODO]
