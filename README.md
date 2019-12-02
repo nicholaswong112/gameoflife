@@ -2,7 +2,6 @@
 - [python3](https://docs.python.org/3/using/index.html)
 - [pip](https://pip.pypa.io/en/stable/installing/)
 - [virtualenv](https://virtualenv.pypa.io/en/latest/installation/)
-- [tkinter](https://stackoverflow.com/questions/39928710/why-is-there-no-tkinter-distribution-found): try running `python3 -m tkinter`
 
 # Instructions for downloading
 1. Clone the repo: `git clone https://github.com/nicholaswong112/gameoflife.git`
@@ -10,5 +9,6 @@
 3. Install necessary packages with `pip install -r requirements.txt`
 4. [TODO]
 
-For now, just try running `python3 main.py` and see if it looks like this
+For now, just run `python3 main.py` and see if you get:
+
 ![desired output](test.PNG)
