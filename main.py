@@ -1,13 +1,16 @@
 import pygame
 
+# constants
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 BLUE = (0, 0, 255)
 LIGHTGRAY = (200, 200, 200)
 
+GRID_SIZE = 20
+WIDTH, HEIGHT = 700, 700
+
 # set up
 pygame.init()
-WIDTH, HEIGHT = 700, 700
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Game of Life')
 # TODO add an icon?
