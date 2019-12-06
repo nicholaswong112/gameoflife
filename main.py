@@ -1,6 +1,6 @@
 import pygame
 
-# constants
+### CONSTANTS ###
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
@@ -11,7 +11,8 @@ LIGHTGRAY = (200, 200, 200)
 GRID_SIZE = 20
 WIDTH, HEIGHT = 700, 800 # TODO make this dynamic
 
-# set up
+### SET UP ###
+# stuff for pygame
 pygame.init()
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Game of Life')
@@ -40,7 +41,7 @@ cells = [[False for i in range(GRID_SIZE)] for j in range(GRID_SIZE)] # all Fals
 # loop variables
 loop = True
 running = False # whether the simulation is running
-# helper function for step() -- accounts for bounds
+# helper function for step() -- counts number of neighbors alive + accounts for bounds
 def neighborCount(row, col):
     count = 0
     for r in range(row - 1, row + 2):
@@ -52,7 +53,7 @@ def neighborCount(row, col):
             if cells[r][c]:
                 count += 1
     return count
-# runs a step of the simulation
+# runs a step of the simulation, updating the cells matrix
 # governed by these rules
 # dead -> alive if exactly 3 neighbors
 # alive -> dead if not exactly 2 or 3 neighbors
@@ -79,24 +80,27 @@ def draw_cells():
         for c in range(GRID_SIZE):
             dimensions = (c * unitLen, r * unitLen, unitLen, unitLen)
             pygame.draw.rect(window, BLACK if cells[r][c] else WHITE, dimensions)
+# clears the cells matrix, sets `running` to False - called by Reset button
 def reset():
     global cells
     global running
     cells = [[False for i in range(GRID_SIZE)] for j in range(GRID_SIZE)] # reset to all dead
     running = False
+# toggles `running` state - called by Start/stop button
 def toggle():
     global running
     running = not running
 
 # game loop
 while loop:
-
+    # clears screen
     window.fill(WHITE)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             loop = False
         elif event.type == pygame.MOUSEBUTTONUP and not running:
+            # account for clicking the grid
             pos = pygame.mouse.get_pos()
             # figure out which square was clicked
             unitLen = int(WIDTH / GRID_SIZE)
@@ -105,6 +109,7 @@ while loop:
             if r < GRID_SIZE and c < GRID_SIZE:
                 cells[r][c] = not cells[r][c]
     
+    # if start was pressed, automatically perform a step
     if running:
         step()
     
