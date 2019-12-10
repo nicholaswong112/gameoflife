@@ -52,6 +52,7 @@ loop = True
 running = False  # whether the simulation is running
 # helper function for step() -- counts number of neighbors alive + accounts for bounds
 
+
 def draw_cells():
     unitLen = WIDTH / GRID_SIZE
     for r in range(GRID_SIZE):
@@ -62,11 +63,16 @@ def draw_cells():
                 window, BLACK if board.get(r, c) else WHITE, dimensions)
 
 # clears the cells matrix, sets `running` to False - called by Reset button
+
+
 def reset():
+    global running
     board.reset()
     running = False
 
 # toggles `running` state - called by Start/stop button
+
+
 def toggle():
     global running
     running = not running
@@ -100,7 +106,8 @@ while loop:
     # draw the buttons at the bottom
     button('Stop' if running else 'Start', ((WIDTH - 300) / 4,
                                             HEIGHT - 60, 100, 40), RED if running else GREEN, toggle)
-    button('Step', (100 + (WIDTH - 300) / 2, HEIGHT - 60, 100, 40), BLUE, board.step)
+    button('Step', (100 + (WIDTH - 300) / 2,
+                    HEIGHT - 60, 100, 40), BLUE, board.step)
     button('Reset', (200 + 3 * (WIDTH - 300) /
                      4, HEIGHT - 60, 100, 40), BLUE, reset)
 
