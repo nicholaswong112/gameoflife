@@ -1,4 +1,6 @@
 BUFFER_SIZE = 5
+COUNTER = 0
+
 
 class Board:
     def __init__(self, size):
@@ -12,20 +14,48 @@ class Board:
     # governed by these rules
     # dead -> alive if exactly 3 neighbors
     # alive -> dead if not exactly 2 or 3 neighbors
+
     def step(self):
+        global COUNTER
         tmp = [row[:] for row in self.cells]
         tmpNeighbor = [row[:] for row in self.neighborCounts]
         for r in range(1, self.realSize - 1):
             for c in range(1, self.realSize - 1):
                 neighbors = self.neighborCounts[r][c]
                 if (self.cells[r][c] and not (2 <= neighbors <= 3)) or \
-                    (not self.cells[r][c] and neighbors == 3):
+                        (not self.cells[r][c] and neighbors == 3):
                     # flip tmp, update neighbors
                     wasAlive = tmp[r][c]
                     tmp[r][c] = not self.cells[r][c]
                     self.updateNeighbors(tmpNeighbor, r, c, wasAlive)
+                COUNTER += 1
         self.cells = tmp
         self.neighborCounts = tmpNeighbor
+        if(COUNTER >= 1000):
+            self.cleanBuffer()
+            COUNTER = 0
+
+    def cleanBuffer(self):
+        # The northern region of the buffer
+        for r in range(0, BUFFER_SIZE):
+            for c in range(0, self.realSize):
+                if(self.cells[r][c]):
+                    self.flipCell(r - BUFFER_SIZE, c - BUFFER_SIZE)
+        # The southern region of the buffer
+        for r in range(self.realSize - BUFFER_SIZE, self.realSize):
+            for c in range(0, self.realSize):
+                if(self.cells[r][c]):
+                    self.flipCell(r - BUFFER_SIZE, c - BUFFER_SIZE)
+        # The western region of the buffer
+        for r in range(BUFFER_SIZE, self.realSize - BUFFER_SIZE):
+            for c in range(0, BUFFER_SIZE):
+                if(self.cells[r][c]):
+                    self.flipCell(r - BUFFER_SIZE, c - BUFFER_SIZE)
+        # The eastern region of the buffer
+        for r in range(BUFFER_SIZE, self.realSize - BUFFER_SIZE):
+            for c in range(self.realSize - BUFFER_SIZE, self.realSize):
+                if(self.cells[r][c]):
+                    self.flipCell(r - BUFFER_SIZE, c - BUFFER_SIZE)
 
     def get(self, row, col):
         return self.cells[row + BUFFER_SIZE][col + BUFFER_SIZE]
@@ -37,7 +67,8 @@ class Board:
         # now row and col are the real thing
         wasAlive = self.cells[row][col]
         self.cells[row][col] = not self.cells[row][col]
-        self.neighborCounts = self.updateNeighbors(self.neighborCounts, row, col, wasAlive)
+        self.neighborCounts = self.updateNeighbors(
+            self.neighborCounts, row, col, wasAlive)
 
     # row and col are real indices
     def updateNeighbors(self, nMatrix, row, col, wasAlive):
