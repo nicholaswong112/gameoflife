@@ -1,4 +1,5 @@
 BUFFER_SIZE = 5
+BUFFER_LIMIT = 50000
 COUNTER = 0
 
 
@@ -31,7 +32,7 @@ class Board:
                 COUNTER += 1
         self.cells = tmp
         self.neighborCounts = tmpNeighbor
-        if(COUNTER >= 1000):
+        if(COUNTER >= BUFFER_LIMIT):
             self.cleanBuffer()
             COUNTER = 0
 
