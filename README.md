@@ -5,9 +5,10 @@
 
 # Instructions for downloading
 1. Clone the repo: `git clone https://github.com/nicholaswong112/gameoflife.git`
-2. Run `virtualenv venv` then `source venv/bin/activate` to create and activate the virtual environment
-3. Install necessary packages with `pip install -r requirements.txt`
-4. Run `python3 main.py`
+2. 'cd gameoflife/'
+3. Run `virtualenv venv` then `source venv/bin/activate` to create and activate the virtual environment
+4. Install necessary packages with `pip install -r requirements.txt`
+5. Run `python3 main.py`
 
 # TODO
 * docstrings instead of comments

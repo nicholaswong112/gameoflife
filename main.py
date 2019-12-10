@@ -1,4 +1,5 @@
 import pygame
+from board import Board
 
 ### CONSTANTS ###
 BLACK = (0, 0, 0)
@@ -45,51 +46,11 @@ def button(msg, dimensions, color, action=None):
 
 
 # creating the cell grid
-cells = [[False for i in range(GRID_SIZE)] for j in range(
-    GRID_SIZE)]  # all False (dead) initially
+board = Board(GRID_SIZE)
 # loop variables
 loop = True
 running = False  # whether the simulation is running
 # helper function for step() -- counts number of neighbors alive + accounts for bounds
-
-
-def neighborCount(row, col):
-    count = 0
-    for r in range(row - 1, row + 2):
-        for c in range(col - 1, col + 2):
-            # skip itself
-            if r == row and c == col:
-                continue
-            # check out of bounds
-            if r < 0 or c < 0 or r >= GRID_SIZE or c >= GRID_SIZE:
-                continue
-            if cells[r][c]:
-                count += 1
-    return count
-
-# runs a step of the simulation, updating the cells matrix
-# governed by these rules
-# dead -> alive if exactly 3 neighbors
-# alive -> dead if not exactly 2 or 3 neighbors
-
-
-def step():
-    global cells
-    tmp = [[False for i in range(GRID_SIZE)] for j in range(GRID_SIZE)]
-    for r in range(GRID_SIZE):
-        for c in range(GRID_SIZE):
-            tmp[r][c] = cells[r][c]
-            neighbors = neighborCount(r, c)
-            if cells[r][c]:
-                # alive
-                if neighbors < 2 or neighbors > 3:
-                    tmp[r][c] = False
-            else:
-                # dead
-                if neighbors == 3:
-                    tmp[r][c] = True
-    cells = tmp
-
 
 def draw_cells():
     unitLen = WIDTH / GRID_SIZE
@@ -98,21 +59,14 @@ def draw_cells():
             dimensions = (c * unitLen + 1, r * unitLen +
                           1, unitLen - 2, unitLen - 2)
             pygame.draw.rect(
-                window, BLACK if cells[r][c] else WHITE, dimensions)
+                window, BLACK if board.get(r, c) else WHITE, dimensions)
 
 # clears the cells matrix, sets `running` to False - called by Reset button
-
-
 def reset():
-    global cells
-    global running
-    cells = [[False for i in range(GRID_SIZE)]
-             for j in range(GRID_SIZE)]  # reset to all dead
+    board.reset()
     running = False
 
 # toggles `running` state - called by Start/stop button
-
-
 def toggle():
     global running
     running = not running
@@ -135,18 +89,18 @@ while loop:
             c = pos[0] // unitLen
             r = pos[1] // unitLen
             if r < GRID_SIZE and c < GRID_SIZE:
-                cells[r][c] = not cells[r][c]
+                board.flipCell(r, c)
 
     # if start was pressed, automatically perform a step
     if running:
-        step()
+        board.step()
 
     draw_cells()
 
     # draw the buttons at the bottom
     button('Stop' if running else 'Start', ((WIDTH - 300) / 4,
                                             HEIGHT - 60, 100, 40), RED if running else GREEN, toggle)
-    button('Step', (100 + (WIDTH - 300) / 2, HEIGHT - 60, 100, 40), BLUE, step)
+    button('Step', (100 + (WIDTH - 300) / 2, HEIGHT - 60, 100, 40), BLUE, board.step)
     button('Reset', (200 + 3 * (WIDTH - 300) /
                      4, HEIGHT - 60, 100, 40), BLUE, reset)
 
