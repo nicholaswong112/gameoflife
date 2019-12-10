@@ -7,8 +7,14 @@
 1. Clone the repo: `git clone https://github.com/nicholaswong112/gameoflife.git`
 2. Run `virtualenv venv` then `source venv/bin/activate` to create and activate the virtual environment
 3. Install necessary packages with `pip install -r requirements.txt`
-4. [TODO]
+4. Run `python3 main.py`
 
-For now, just run `python3 main.py` and see if you get:
-
-![desired output](test.PNG)
+# TODO
+* docstrings instead of comments
+* GRID CLASS
+- Display the grid lines
+- Make the buttons more responsive (lags sometimes, and if you hold down they keep activating) -- have their own thread/handler?
+- Add a speed slider --> should be changing argument to clock.tick()
+- Be able to change the number of squares, resize the window
+- There shouldn't be "walls" at the edge, theoretically, a glider would just glide away (easy fix, extend grid some small number of squares in all directions)
+- Make UI more pretty
