@@ -41,7 +41,7 @@ class Board:
         # user-perceived size
         self.size = size
         # actual size of the underlying matrix
-        self.realSize = size + 2 * BUFFER_SIZE
+        self.realSize = size + 2 * Board.BUFFER_SIZE
 
         self.cells = [[False for i in range(self.realSize)]
                       for j in range(self.realSize)]
@@ -80,7 +80,7 @@ class Board:
 
         # perform buffer cleaning if needed
         self.counter += 1
-        if(self.counter >= BUFFER_LIMIT):
+        if(self.counter >= Board.BUFFER_LIMIT):
             self.cleanBuffer()
             self.counter = 0
 
@@ -91,28 +91,28 @@ class Board:
         """
 
         # The northern region of the buffer
-        for r in range(0, BUFFER_SIZE):
+        for r in range(0, Board.BUFFER_SIZE):
             for c in range(0, self.realSize):
                 if(self.cells[r][c]):
-                    self.flipCell(r - BUFFER_SIZE, c - BUFFER_SIZE)
+                    self.flipCell(r - Board.BUFFER_SIZE, c - Board.BUFFER_SIZE)
 
         # The southern region of the buffer
-        for r in range(self.realSize - BUFFER_SIZE, self.realSize):
+        for r in range(self.realSize - Board.BUFFER_SIZE, self.realSize):
             for c in range(0, self.realSize):
                 if(self.cells[r][c]):
-                    self.flipCell(r - BUFFER_SIZE, c - BUFFER_SIZE)
+                    self.flipCell(r - Board.BUFFER_SIZE, c - Board.BUFFER_SIZE)
 
         # The western region of the buffer
-        for r in range(BUFFER_SIZE, self.realSize - BUFFER_SIZE):
+        for r in range(Board.BUFFER_SIZE, self.realSize - Board.BUFFER_SIZE):
             for c in range(0, BUFFER_SIZE):
                 if(self.cells[r][c]):
-                    self.flipCell(r - BUFFER_SIZE, c - BUFFER_SIZE)
+                    self.flipCell(r - Board.BUFFER_SIZE, c - Board.BUFFER_SIZE)
 
         # The eastern region of the buffer
-        for r in range(BUFFER_SIZE, self.realSize - BUFFER_SIZE):
-            for c in range(self.realSize - BUFFER_SIZE, self.realSize):
+        for r in range(Board.BUFFER_SIZE, self.realSize - Board.BUFFER_SIZE):
+            for c in range(self.realSize - Board.BUFFER_SIZE, self.realSize):
                 if(self.cells[r][c]):
-                    self.flipCell(r - BUFFER_SIZE, c - BUFFER_SIZE)
+                    self.flipCell(r - Board.BUFFER_SIZE, c - Board.BUFFER_SIZE)
 
     def get(self, row, col):
         """
@@ -123,7 +123,7 @@ class Board:
             col (int) : The column coordinate.
         """
 
-        return self.cells[row + BUFFER_SIZE][col + BUFFER_SIZE]
+        return self.cells[row + Board.BUFFER_SIZE][col + Board.BUFFER_SIZE]
 
     def flipCell(self, row, col):
         """
@@ -136,8 +136,8 @@ class Board:
         """
 
         # translate row and col to realsize scale
-        row += BUFFER_SIZE
-        col += BUFFER_SIZE
+        row += Board.BUFFER_SIZE
+        col += Board.BUFFER_SIZE
 
         wasAlive = self.cells[row][col]
 
